@@ -1,0 +1,113 @@
+
+<?php
+/* Template Name: recentsales detail Page */
+
+get_header();
+?>
+<div class="innerPage laNeigh propertyVideosPage recentSales">
+		<img src="<?php echo get_template_directory_uri(); ?>/assets/img/1040852221.jpg" alt="">
+		<div class="innerBannerText">
+			<h3>Recent Sales</h3>
+		</div>
+	</div>
+	<main id="main">
+
+		<div class="recentSales recentDetails">
+			<div class="container">
+				<div class="parent">
+					<div class="div1">
+						<div class="recentSalesHeading commn-layout">
+							<div class="walkHead">
+								<div class="width-auto">
+									<h6>Our <span></span></h6>
+									<h2>RECENT<span> SALES</span></h2>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php 
+				    $propertiesarr = array(
+				            'post_type'     =>'properties',
+				            'post_status'   =>'publish',
+				            'posts_per_page' => 10
+				    );
+				    $propertiesqry=new WP_Query($propertiesarr);
+				    if($propertiesqry->have_posts()){
+				    ?>
+					
+						<?php
+						    $card = 1;                      
+			            while($propertiesqry->have_posts()):$propertiesqry->the_post();
+			            $featured_img_url = get_the_post_thumbnail_url(get_the_ID(),'full');
+			            $description = get_field('description');
+			            $card++;
+			            $card_class ="div".$card;
+			            ?>
+					<div class="<?php echo $card_class;?>">
+						<div class="rBoxList">
+							<div class="card-cmn">
+								<img src="<?php echo  $featured_img_url; ?>">
+								<div class="box-txt">
+									<p><?php the_title(); ?> </p>
+									<span><?php the_content(); ?></span>
+								</div>
+								<div class="box-hvr">
+									<p><?php echo $description ; ?></p>
+									<a href="<?php echo esc_url( home_url( '/' ) ) ;?>recent-sale-details/" class="boxred hvr-bounce-to-right">View details &nbsp; +</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<?php endwhile;  ?>
+
+					
+					<?php wp_reset_query(); } ?>
+					
+				</div>
+				<p><?php echo $card ; ?></p>
+				
+				<a href="javascript:void(0)" class="loadMore">Load More</a>
+			</div>
+
+		</div>
+             <?php
+              
+              $recentsale_form_heading1 = get_field('recentsale_form_heading1');
+              $recentsale_form_heading2 = get_field('recentsale_form_heading2');
+           ?>
+
+		<section class="sec8 commn-layout grey-sec">
+			<!-- <img src="assets/img/newsl-bg.jpg" alt="" class="bg-img" /> -->
+			<div class="container position-relative text-center">
+				<div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
+					<div class="col-xl-12 text-center ">
+						<div class="width-auto">
+							<h6><?php echo $recentsale_form_heading1; ?></h6>
+							<h2><?php echo $recentsale_form_heading2; ?></h2>
+						</div>
+						<?php echo do_shortcode('[contact-form-7 id="234" title="Get In Touch]');?>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	<script type="text/javascript">
+		
+jQuery(document).ready(function(){
+    jQuery("div.card_class").slice(0, 9).show();
+    // jQuery(".nishikant").hide();
+    jQuery("#more_jobsd").on('click', function (e) {
+        e.preventDefault();
+        jQuery("div.card_class:hidden").slice(0, 6).slideDown();
+        if (jQuery("div.card_class:hidden").length == 0) {           
+           jQuery("#more_jobsd").remove();
+        }
+    });
+  });
+
+
+
+	</script>
+		<?php get_footer();?>
